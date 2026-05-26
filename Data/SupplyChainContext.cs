@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Supplychain.Models.Warehouse;
+using SupplyChain360.Models.Notifications;
 
 namespace Supplychain.Data
 {
@@ -9,10 +10,13 @@ namespace Supplychain.Data
             : base(options)
         {
         }
-
         public DbSet<Order> Orders { get; set; }
         public DbSet<Inventory> Inventory { get; set; }
-
+        
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<InboundShipment> Shipments { get; set; }
+         public DbSet<Notification> Notifications { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure table names
