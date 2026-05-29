@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SupplyChain360.Enums.Warehouse;
 
 namespace Supplychain.Models.Warehouse
 {
@@ -24,8 +25,7 @@ namespace Supplychain.Models.Warehouse
         [Required]
         public int SafetyStock { get; set; }
 
-        [StringLength(20)]
-        public string Status { get; set; }   // Active, Inactive, etc.
+        public InventoryStatus Status { get; set; }
 
         [StringLength(50)]
         public string StorageLocation { get; set; }

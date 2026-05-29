@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SupplyChain360.Enums.Warehouse;
 
 namespace Supplychain.Repository.Warehouse.Implementations
 {
@@ -32,7 +33,7 @@ namespace Supplychain.Repository.Warehouse.Implementations
         public async Task<IEnumerable<Order>> GetCurrentOrdersAsync()
         {
             return await _context.Orders
-                .Where(o => o.Status == "Pending" || o.Status == "Confirmed")
+                .Where(o => o.Status == OrderStatus.Pending || o.Status == OrderStatus.Confirmed)
                 .ToListAsync();
         }
 
@@ -45,9 +46,9 @@ namespace Supplychain.Repository.Warehouse.Implementations
         public async Task<IEnumerable<Order>> GetOrderHistoryAsync()
         {
             return await _context.Orders
-                .Where(o => o.Status == "Shipped" 
-                        || o.Status == "Delivered" 
-                        || o.Status == "Cancelled")
+                .Where(o => o.Status == OrderStatus.Shipped 
+                        || o.Status == OrderStatus.Delivered 
+                        || o.Status == OrderStatus.Cancelled)
                 .ToListAsync();
         }
     }

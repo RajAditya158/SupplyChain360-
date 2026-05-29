@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SupplyChain360.DTOs.Notifications;
 using SupplyChain360.Services.Notifications.Interfaces;
+using SupplyChain360.Enums.Notifications;
 
 namespace SupplyChain360.Controllers.Notifications
 {
@@ -31,10 +32,10 @@ namespace SupplyChain360.Controllers.Notifications
             return Ok(notifications);
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetNotificationsByUser(string userId)
+        [HttpGet("user/{UserId}")]
+        public async Task<IActionResult> GetNotificationsByUser(NotificationUserId UserId)
         {
-            var notifications = await _service.GetNotificationsByUserAsync(userId);
+            var notifications = await _service.GetNotificationsByUserAsync(UserId);
             return Ok(notifications);
         }
     }

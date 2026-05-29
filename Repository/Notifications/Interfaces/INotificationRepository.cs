@@ -1,6 +1,7 @@
 
 
 using SupplyChain360.Models.Notifications;
+using SupplyChain360.Enums.Notifications;
 
 namespace SupplyChain360.Repositories.Notifications.Interfaces
 {
@@ -8,6 +9,6 @@ namespace SupplyChain360.Repositories.Notifications.Interfaces
     {
         Task AddNotificationAsync(Notification notification);
         Task<IEnumerable<Notification>> GetAllNotificationsAsync();
-        Task<IEnumerable<Notification>> GetNotificationsByUserAsync(string userId);
+        Task<IEnumerable<Notification>> GetNotificationsByUserAsync(NotificationUserId userId);
     }
 }

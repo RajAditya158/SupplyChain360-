@@ -1,9 +1,10 @@
-namespace SupplyChain360.DTOs.Notifications
+using SupplyChain360.Enums.Notifications;
 
+namespace SupplyChain360.DTOs.Notifications
 {
     public class NotificationDto
     {
-        public string UserId { get; set; }
+        public NotificationUserId UserId { get; set; }
         public string Message { get; set; }
     }
 }

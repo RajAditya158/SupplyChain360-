@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using SupplyChain.Repository.Procurement.Interfaces;
 using SupplyChain.Services.Procurement.Interfaces;
+using SupplyChain360.Enums.Procurement;
+
 namespace SupplyChain.Services.Procurement.Implementation
 {
 public class PurchaseOrderService : IPurchaseOrderService
@@ -17,41 +19,45 @@ public class PurchaseOrderService : IPurchaseOrderService
     public async Task<List<PurchaseOrder>> GetAll()
         => await _repo.GetAll();
 
-public async Task<PurchaseOrder> Create(PurchaseOrderDTO dto)
-{
+    public async Task<PurchaseOrder> Create(PurchaseOrderDTO dto)
+    {
     var po = new PurchaseOrder
     {
         SupplierId = dto.SupplierId,
+        SupplierName = dto.SupplierName,
         OrderDate = dto.OrderDate,
         ExpectedDeliveryDate = dto.ExpectedDeliveryDate,
-        Status = "CREATED"
+        Status = dto.Status == 0 ? PurchaseOrderStatus.Created : dto.Status
     };
+
     var createdPO = await _repo.Create(po);
-    
-    if (string.Equals(createdPO.Status, "CONFIRMED", StringComparison.OrdinalIgnoreCase))
+
+    if (createdPO.Status == PurchaseOrderStatus.Confirmed)
     {
         var shipment = new InboundShipment
         {
             PoId = createdPO.PoId,
             SupplierId = createdPO.SupplierId,
+            SupplierName = createdPO.SupplierName,
             ExpectedDeliveryDate = createdPO.ExpectedDeliveryDate,
-            Status = createdPO.Status,
+            Status = ShipmentStatus.Created,
             Carrier = "Blue Dot"
         };
 
         await _shipmentRepo.Create(shipment);
     }
+
     return createdPO;
 }
 
-    public async Task<PurchaseOrder> GetById(long id)
-        => await _repo.GetById(id);
+    public async Task<PurchaseOrder> GetById(int PoId)
+        => await _repo.GetById(PoId);
 
-public async Task<PurchaseOrder> UpdateStatus(long id, string status)
+public async Task<PurchaseOrder> UpdateStatus(int PoId, PurchaseOrderStatus status)
 {
-    var po = await _repo.GetById(id);
+    var po = await _repo.GetById(PoId);
 
-    // ✅ FIX: check null
+    //  FIX: check null
     if (po == null)
         throw new Exception("Purchase Order not found");
 
@@ -59,14 +65,15 @@ public async Task<PurchaseOrder> UpdateStatus(long id, string status)
 
     var updatedPO = await _repo.Update(po);
 
-    if (string.Equals(status, "CONFIRMED", StringComparison.OrdinalIgnoreCase))
+    if (status == PurchaseOrderStatus.Confirmed)
     {
         var shipment = new InboundShipment
         {
             PoId = updatedPO.PoId,
             SupplierId = updatedPO.SupplierId,
+            SupplierName = updatedPO.SupplierName,
             ExpectedDeliveryDate = updatedPO.ExpectedDeliveryDate,
-            Status = updatedPO.Status,
+            Status = ShipmentStatus.Created,
             Carrier = "Blue Dot"
         };
 
@@ -76,19 +83,38 @@ public async Task<PurchaseOrder> UpdateStatus(long id, string status)
     return updatedPO;
 }
 
-public async Task Delete(long id)
+public async Task Delete(int PoId)
 {
-    var po = await _repo.GetById(id);
+    var po = await _repo.GetById(PoId);
 
     if (po == null)
         throw new Exception("Purchase Order not found");
 
     await _repo.Delete(po);
 }
+public async Task<PurchaseOrder> Update(int PoId, PurchaseOrderDTO dto)
+{
+    var po = await _repo.GetById(PoId);
 
-        public Task<PurchaseOrder> Update(long id, PurchaseOrderDTO dto)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    if (po == null)
+        throw new Exception("Purchase Order not found");
+
+    // Update ALL fields
+    po.SupplierId = dto.SupplierId;
+    po.SupplierName = dto.SupplierName;   
+    po.OrderDate = dto.OrderDate;
+    po.ExpectedDeliveryDate = dto.ExpectedDeliveryDate;
+    po.Status = dto.Status;               
+
+    var updatedPO = await _repo.Update(po);
+
+    return updatedPO;
+}
+
+public async Task<List<PurchaseOrder>> Search(SearchByPurchaseDTO dto)
+{
+    return await _repo.Search(dto);
+}
+
+}
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Supplychain.Dtos.Warehouse;
 using Supplychain.Models.Warehouse;
 using Supplychain.Services.Warehouse;
+using SupplyChain360.Enums.Warehouse;
 
 namespace Supplychain.Controllers.Warehouse
 {
@@ -9,9 +10,9 @@ namespace Supplychain.Controllers.Warehouse
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderService _orderService; // <-- Depend on interface
+        private readonly IOrderService _orderService; 
 
-        public OrdersController(IOrderService orderService) // <-- Inject interface
+        public OrdersController(IOrderService orderService) 
         {
             _orderService = orderService;
         }
@@ -20,7 +21,9 @@ namespace Supplychain.Controllers.Warehouse
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto dto)
         {
-            var order = new Order
+            if (dto != null)
+            {
+              var order = new Order
             {
                 CustomerName = dto.CustomerName,
                 SKU = dto.SKU,
@@ -32,7 +35,10 @@ namespace Supplychain.Controllers.Warehouse
             };
 
             var createdOrder = await _orderService.CreateOrderAsync(order);
-            return Ok(createdOrder);
+            return createdOrder != null ? Ok(createdOrder) : BadRequest(new { error = "Failed to create order" });
+            }
+           
+           return BadRequest(new { error = "Invalid order data" });
         }
 
         // GET /api/orders/current
@@ -44,12 +50,17 @@ namespace Supplychain.Controllers.Warehouse
         }
 
         [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] string newStatus)
+        public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] OrderStatus newStatus)
         {
             try
             {
-                var updatedOrder = await _orderService.UpdateOrderStatusAsync(id, newStatus);
-                return Ok(updatedOrder);
+                if (id > 0)
+                {
+                    var updatedOrder = await _orderService.UpdateOrderStatusAsync(id, newStatus);
+                    return updatedOrder!=null ? Ok(updatedOrder) : BadRequest(new { error = "Failed to update order status" });
+                }
+                  return BadRequest(new { error = "Invalid order ID" });
+                
             }
             catch (InvalidOperationException ex)
             {
@@ -68,8 +79,13 @@ namespace Supplychain.Controllers.Warehouse
         {
             try
             {
-                var cancelledOrder = await _orderService.CancelOrderAsync(id);
-                return Ok(cancelledOrder);
+                if (id > 0)
+                {
+                     var cancelledOrder = await _orderService.CancelOrderAsync(id);
+                    return Ok(cancelledOrder);                    
+                }
+               
+               return BadRequest(new { error = "Invalid order ID" });
             }
             catch (InvalidOperationException ex)
             {

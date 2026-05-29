@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Supplychain.Repository.Warehouse.Interfaces;
+using SupplyChain360.Enums.Warehouse;
 
 namespace Supplychain.Services.Warehouse
 {
@@ -56,7 +57,7 @@ namespace Supplychain.Services.Warehouse
         public async Task<Inventory> AddInventoryAsync(Inventory inventory)
         {
             inventory.LastUpdated = DateTime.UtcNow;
-            inventory.Status = "Available"; // or "Active", default value
+            inventory.Status = InventoryStatus.Available;
             _context.Inventory.Add(inventory);
             await _context.SaveChangesAsync();
             return inventory;

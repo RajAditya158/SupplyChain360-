@@ -13,22 +13,27 @@ namespace SupplyChain.Repository.Procurement.Implementation
         {
             _context = context;
         }
+        
+        public async Task<List<OrderItem>> GetAll()
+        {
+            return await _context.OrderItems.ToListAsync();
+        }
 
-        // ✅ Get all items for a specific Purchase Order
-        public async Task<List<OrderItem>> GetByPO(long poId)
+        //  Get all items for a specific Purchase Order
+        public async Task<List<OrderItem>> GetByItemId(int ItemId)
         {
             return await _context.OrderItems
-                                 .Where(x => x.PoId == poId)
+                                 .Where(x => x.ItemId == ItemId)
                                  .ToListAsync();
         }
 
-        // ✅ Get single item by ID
-        public async Task<OrderItem?> GetById(long id)
+        //  Get single item by ID
+        public async Task<OrderItem?> GetById(int ItemId)
         {
-            return await _context.OrderItems.FindAsync(id);
+            return await _context.OrderItems.FindAsync(ItemId);
         }
 
-        // ✅ Create new order item
+        //  Create new order item
         public async Task<OrderItem> Create(OrderItem item)
         {
             await _context.OrderItems.AddAsync(item);
@@ -36,7 +41,7 @@ namespace SupplyChain.Repository.Procurement.Implementation
             return item;
         }
 
-        // ✅ Update existing item
+        //  Update existing item
         public async Task<OrderItem> Update(OrderItem item)
         {
             _context.OrderItems.Update(item);
@@ -44,10 +49,10 @@ namespace SupplyChain.Repository.Procurement.Implementation
             return item;
         }
 
-        // ✅ Delete item
-        public async Task Delete(long id)
+        //  Delete item
+        public async Task Delete(int ItemId)
         {
-            var item = await _context.OrderItems.FindAsync(id);
+            var item = await _context.OrderItems.FindAsync(ItemId);
 
             if (item != null)
             {
@@ -55,5 +60,34 @@ namespace SupplyChain.Repository.Procurement.Implementation
                 await _context.SaveChangesAsync();
             }
         }
+      public async Task<List<OrderItem>> SearchOrder(SearchOrderDTO dto)
+{
+    var query = _context.OrderItems.AsQueryable();
+
+    // Filter by PO
+    if (dto.PoId > 0)
+    {
+        query = query.Where(o => o.PoId == dto.PoId);
+    }
+
+    // Optional filter by ItemName
+    if (!string.IsNullOrEmpty(dto.ItemName))
+    {
+        query = query.Where(o =>
+            o.ItemName.ToLower().Contains(dto.ItemName.ToLower()));
+    }
+
+    return await query
+        .Select(o => new OrderItem
+        {
+            ItemId = o.ItemId,
+            PoId = o.PoId,
+            ItemName = o.ItemName,
+            Quantity = o.Quantity,
+            Price = o.Price
+        })
+        .ToListAsync();
+}
+
     }
 }

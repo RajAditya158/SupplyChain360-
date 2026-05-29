@@ -1,4 +1,8 @@
+using System.Text.Json.Serialization;
+using SupplyChain360.Enums.Procurement;
+
 public class StatusUpdateDTO
 {
-    public string Status { get; set; }
+     [JsonConverter(typeof(JsonStringEnumConverter))]
+    public ShipmentStatus Status { get; set; }
 }

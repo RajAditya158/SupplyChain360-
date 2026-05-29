@@ -4,6 +4,7 @@ using SupplyChain360.DTOs.Notifications;
 using SupplyChain360.Models.Notifications;
 using SupplyChain360.Repositories.Notifications.Interfaces;
 using SupplyChain360.Services.Notifications.Interfaces;
+using SupplyChain360.Enums.Notifications;
 
 namespace SupplyChain360.Services.Notifications.Implementation
 {
@@ -32,9 +33,10 @@ namespace SupplyChain360.Services.Notifications.Implementation
             return await _repository.GetAllNotificationsAsync();
         }
 
-        public async Task<IEnumerable<Notification>> GetNotificationsByUserAsync(string userId)
+        public async Task<IEnumerable<Notification>> GetNotificationsByUserAsync(NotificationUserId userId)
         {
             return await _repository.GetNotificationsByUserAsync(userId);
         }
     }
 }
+

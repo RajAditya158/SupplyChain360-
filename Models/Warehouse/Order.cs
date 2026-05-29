@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SupplyChain360.Enums.Warehouse;
 
 namespace Supplychain.Models.Warehouse
 {
@@ -36,7 +37,7 @@ namespace Supplychain.Models.Warehouse
         public DateTime ETA { get; set; }
 
 
-        public string? Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         public DateTime OrderDate { get; set; }
     }

@@ -11,12 +11,11 @@ namespace SupplyChain.Services.Procurement.Implementation
             _repo = repo;
         }
 
-        public async Task<List<OrderItem>> GetByPO(long poId)
+        public async Task<List<OrderItem>> GetByItemId(int ItemId)
         {
-            return await _repo.GetByPO(poId);
-        }
-
-        public async Task<OrderItem> Add(long poId, OrderItemDTO dto)
+            return await _repo.GetByItemId(ItemId);
+        }   
+        public async Task<OrderItem> Add(int poId, OrderItemDTO dto)
         {
             var item = new OrderItem
             {
@@ -29,9 +28,9 @@ namespace SupplyChain.Services.Procurement.Implementation
             return await _repo.Create(item);
         }
 
-        public async Task<OrderItem> Update(long id, OrderItemDTO dto)
+        public async Task<OrderItem> Update(int ItemId, OrderItemDTO dto)
         {
-            var item = await _repo.GetById(id);
+            var item = await _repo.GetById(ItemId);
 
             if (item == null)
                 throw new KeyNotFoundException("Order Item not found");
@@ -43,9 +42,21 @@ namespace SupplyChain.Services.Procurement.Implementation
             return await _repo.Create(item);
         }
 
-        public async Task Delete(long id)
+        public async Task Delete(int ItemId)
         {
-            await _repo.Delete(id);
+            await _repo.Delete(ItemId);
         }
+
+        
+        public async Task<List<OrderItem>> GetAll()
+        {
+            return await _repo.GetAll();
+        }
+
+        public async Task<List<OrderItem>> SearchOrder(SearchOrderDTO dto)
+        {
+            return await _repo.SearchOrder(dto);
+        }
+
     }
 }

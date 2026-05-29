@@ -29,6 +29,14 @@ namespace Supplychain.Data
                 .WithMany()
                 .HasForeignKey(o => o.SKU)
                 .HasPrincipalKey(i => i.SKU);
+
+            //  ADD THIS (Shipment → PurchaseOrder FK)
+                modelBuilder.Entity<InboundShipment>()
+                    .HasOne<PurchaseOrder>()
+                    .WithMany()
+                    .HasForeignKey(s => s.PoId);
+
         }
+        
     }
 }

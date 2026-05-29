@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SupplyChain.Services.Procurement.Interfaces;
+using SupplyChain360.Enums.Procurement;
 
 namespace SupplyChain.Procurement.Controllers
 {
@@ -14,61 +15,70 @@ namespace SupplyChain.Procurement.Controllers
             _service = service;
         }
 
-        // ✅ GET: api/v1/inbound-shipments
+        // Get all
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var shipments = await _service.GetAll();
-            return Ok(shipments);
+            return Ok(await _service.GetAll());
         }
 
-        // ✅ GET: api/v1/inbound-shipments/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(long id)
+        // Get by ID
+        [HttpGet("{shipmentId}")]
+        public async Task<IActionResult> GetById(int shipmentId)
         {
-            var shipment = await _service.GetById(id);
+            var shipment = await _service.GetById(shipmentId);
+
+            if (shipment == null)
+                return NotFound("Shipment not found");
+
             return Ok(shipment);
         }
-
-        // ✅ GET: api/v1/purchase-orders/{poId}/inbound-shipments
-        [HttpGet("/api/v1/purchase-orders/{poId}/inbound-shipments")]
-        public async Task<IActionResult> GetByPO(long poId)
+        
+        // Update
+        [HttpPut("{shipmentId}")]
+        public async Task<IActionResult> Update(int shipmentId, [FromBody] ShipmentDTO dto)
         {
-            var shipments = await _service.GetByPO(poId);
-            return Ok(shipments);
+            return Ok(await _service.Update(shipmentId, dto));
         }
 
-
-        // ✅ PUT: api/v1/inbound-shipments/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(long id, [FromBody] ShipmentDTO dto)
+        // Update Status
+        [HttpPatch("{shipmentId}/status")]
+        public async Task<IActionResult> UpdateStatus(int shipmentId, [FromBody] StatusUpdateDTO dto)
         {
-            var updatedShipment = await _service.Update(id, dto);
-            return Ok(updatedShipment);
+            return Ok(await _service.UpdateStatus(shipmentId, dto.Status));
         }
 
-        // ✅ PATCH: api/v1/inbound-shipments/{id}/status
-        [HttpPatch("{id}/status")]
-        public async Task<IActionResult> UpdateStatus(long id, [FromBody] StatusUpdateDTO dto)
+        // Update ETA
+        [HttpPatch("{shipmentId}/eta")]
+        public async Task<IActionResult> UpdateETA(int shipmentId, [FromBody] ETAUpdateDTO dto)
         {
-            var updatedShipment = await _service.UpdateStatus(id, dto.Status);
-            return Ok(updatedShipment);
+            return Ok(await _service.UpdateETA(shipmentId, dto.ExpectedDeliveryDate));
         }
 
-        // ✅ PATCH: api/v1/inbound-shipments/{id}/eta
-        [HttpPatch("{id}/eta")]
-        public async Task<IActionResult> UpdateETA(long id, [FromBody] ETAUpdateDTO dto)
+        // Delete
+        [HttpDelete("{shipmentId}")]
+        public async Task<IActionResult> Delete(int shipmentId)
         {
-            var updatedShipment = await _service.UpdateETA(id, dto.ExpectedDeliveryDate);
-            return Ok(updatedShipment);
-        }
-
-        // ✅ DELETE: api/v1/inbound-shipments/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
-        {
-            await _service.Delete(id);
+            await _service.Delete(shipmentId);
             return NoContent();
+        }
+
+        //SEARCH 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(
+            [FromQuery] int? poId,
+            [FromQuery] string? supplierName,
+            [FromQuery] ShipmentStatus? status)
+        {
+            var dto = new SearchInboundShipmentDto
+            {
+                PoId = poId ?? 0,
+                SupplierName = supplierName,
+                Status = status
+            };
+
+            var result = await _service.Search(dto); 
+            return Ok(result);
         }
     }
 }

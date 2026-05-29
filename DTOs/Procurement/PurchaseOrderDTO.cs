@@ -1,7 +1,13 @@
+using System.Text.Json.Serialization;
+using SupplyChain360.Enums.Procurement;
+
 public class PurchaseOrderDTO
 {
-    public long SupplierId { get; set; }
+    public int SupplierId { get; set; }
+    public string SupplierName { get; set; }
     public DateTime OrderDate { get; set; }
     public DateTime ExpectedDeliveryDate { get; set; }
-    public string Status { get; set; }
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public PurchaseOrderStatus Status { get; set; }
 }

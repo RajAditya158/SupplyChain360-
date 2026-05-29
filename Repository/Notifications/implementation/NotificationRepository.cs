@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Supplychain.Data;
 using SupplyChain360.Models.Notifications;
 using SupplyChain360.Repositories.Notifications.Interfaces;
+using SupplyChain360.Enums.Notifications;
 
 namespace SupplyChain360.Repositories.Notifications.Implementation
 {
@@ -25,7 +26,7 @@ namespace SupplyChain360.Repositories.Notifications.Implementation
             return await _context.Notifications.ToListAsync();
         }
 
-        public async Task<IEnumerable<Notification>> GetNotificationsByUserAsync(string userId)
+        public async Task<IEnumerable<Notification>> GetNotificationsByUserAsync(NotificationUserId userId)
         {
             return await _context.Notifications
                                  .Where(n => n.UserId == userId)
