@@ -21,7 +21,7 @@ namespace Supplychain.Services.Warehouse
         public async Task<Order> CreateOrderAsync(Order order)
         {
             // System-generated fields
-         
+
             // return await _orderRepository.AddOrderAsync(order);
             var inventory = await _inventoryRepository.GetBySkuAsync(order.SKU);
             // Check inventory before saving order
@@ -95,6 +95,6 @@ namespace Supplychain.Services.Warehouse
             return order;
         }
 
-        
+
     }
 }

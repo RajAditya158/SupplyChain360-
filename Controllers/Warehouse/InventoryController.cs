@@ -19,23 +19,24 @@ namespace Supplychain.Controllers.Warehouse
 
         // POST /api/inventory
         [HttpPost]
-public async Task<IActionResult> AddInventory([FromBody] CreateInventoryDto dto)
-{
-    if (!ModelState.IsValid)
-        return BadRequest(ModelState);
+        public async Task<IActionResult> AddInventory([FromBody] CreateInventoryDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-    var inventory = new Inventory
-    {
-        SKU = dto.SKU,
-        ProductName = dto.ProductName,
-        QuantityOnHand = dto.QuantityOnHand,
-        StorageLocation = dto.StorageLocation,
-        LastUpdated = DateTime.UtcNow // system-generated
-    };
+            var inventory = new Inventory
+            {
+                SKU = dto.SKU,
+                ProductName = dto.ProductName,
+                QuantityOnHand = dto.QuantityOnHand,
+                StorageLocation = dto.StorageLocation,
+                Status = "Available",
+                LastUpdated = DateTime.UtcNow // system-generated
+            };
 
-    var created = await _inventoryService.AddInventoryAsync(inventory);
-    return Ok(created);
-}
+            var created = await _inventoryService.AddInventoryAsync(inventory);
+            return Ok(created);
+        }
 
 
         // GET /api/inventory/summary

@@ -62,7 +62,7 @@ namespace Supplychain.Controllers.Warehouse
             var orders = await _orderService.GetOrderHistoryAsync();
             return Ok(orders);
         }
-        
+
         [HttpPut("{id}/cancel")]
         public async Task<IActionResult> CancelOrder(int id)
         {

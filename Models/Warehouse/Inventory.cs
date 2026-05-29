@@ -12,11 +12,11 @@ namespace Supplychain.Models.Warehouse
 
         [Required]
         [StringLength(50)]
-        public string SKU { get; set; }
+        public required string SKU { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string ProductName { get; set; }
+        public required string ProductName { get; set; }
 
         [Required]
         public int QuantityOnHand { get; set; }
@@ -25,10 +25,10 @@ namespace Supplychain.Models.Warehouse
         public int SafetyStock { get; set; }
 
         [StringLength(20)]
-        public string Status { get; set; }   // Active, Inactive, etc.
+        public required string Status { get; set; }   // Active, Inactive, etc.
 
         [StringLength(50)]
-        public string StorageLocation { get; set; }
+        public required string StorageLocation { get; set; }
 
         public int PhysicalCount { get; set; }
 

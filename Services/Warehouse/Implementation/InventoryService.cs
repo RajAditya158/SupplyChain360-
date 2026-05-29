@@ -8,11 +8,11 @@ using Supplychain.Repository.Warehouse.Interfaces;
 
 namespace Supplychain.Services.Warehouse
 {
-    public class InventoryService:IInventoryService
+    public class InventoryService : IInventoryService
     {
-        
+
         private readonly SupplyChainContext _context;
-      
+
         public InventoryService(SupplyChainContext context)
         {
             _context = context;
@@ -62,7 +62,7 @@ namespace Supplychain.Services.Warehouse
             return inventory;
         }
 
-        
+
         public async Task<IEnumerable<Inventory>> GetCriticalStocksAsync()
         {
             return await _context.Inventory
@@ -88,7 +88,7 @@ namespace Supplychain.Services.Warehouse
         {
             return await _context.Inventory.FirstOrDefaultAsync(i => i.SKU == sku);
         }
-        
+
 
         public async Task<List<Inventory>> GetReconciliationAsync()
         {
