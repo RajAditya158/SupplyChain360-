@@ -1,6 +1,7 @@
 using Supplychain.Models.Warehouse;
 using Supplychain.Repository.Warehouse.Implementations;
 using Supplychain.Repository.Warehouse.Interfaces;
+using SupplyChain360.Enums.Warehouse;
 
 namespace Supplychain.Services.Warehouse
 {
@@ -37,7 +38,7 @@ namespace Supplychain.Services.Warehouse
             inventory.QuantityOnHand -= order.Quantity;
             inventory.LastUpdated = DateTime.UtcNow;
             await _inventoryRepository.UpdateInventoryAsync(inventory);
-            order.Status = "Pending";
+            order.Status = OrderStatus.Pending;
             order.ShipmentId = Guid.NewGuid().ToString();
             order.OrderDate = DateTime.UtcNow;
             var createdOrder = await _orderRepository.AddOrderAsync(order);
@@ -54,7 +55,7 @@ namespace Supplychain.Services.Warehouse
         }
 
 
-        public async Task<Order> UpdateOrderStatusAsync(int orderId, string newStatus)
+        public async Task<Order> UpdateOrderStatusAsync(int orderId, OrderStatus newStatus)
         {
             var order = await _orderRepository.GetByIdAsync(orderId);
             if (order == null)
@@ -76,7 +77,7 @@ namespace Supplychain.Services.Warehouse
             if (order == null)
                 throw new InvalidOperationException($"Order {orderId} not found.");
 
-            if (order.Status == "Cancelled")
+            if (order.Status == OrderStatus.Cancelled)
                 throw new InvalidOperationException($"Order {orderId} is already cancelled.");
 
             // Restore stock
@@ -89,7 +90,7 @@ namespace Supplychain.Services.Warehouse
             }
 
             // Update order status
-            order.Status = "Cancelled";
+            order.Status = OrderStatus.Cancelled;
             await _orderRepository.UpdateOrderAsync(order);
 
             return order;

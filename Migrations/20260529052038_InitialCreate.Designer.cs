@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Supplychain.Data;
 
@@ -11,9 +12,11 @@ using Supplychain.Data;
 namespace Supplychain.Migrations
 {
     [DbContext(typeof(SupplyChainContext))]
-    partial class SupplyChainContextModelSnapshot : ModelSnapshot
+    [Migration("20260529052038_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,79 +25,6 @@ namespace Supplychain.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-<<<<<<< HEAD
-            modelBuilder.Entity("AuditLog", b =>
-                {
-                    b.Property<int>("AuditId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuditId"));
-
-                    b.Property<string>("Action")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuditId");
-
-                    b.ToTable("AuditLog", (string)null);
-                });
-
-            modelBuilder.Entity("Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Role", (string)null);
-                });
-
-            modelBuilder.Entity("Supplier", b =>
-                {
-                    b.Property<int>("SupplierId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SupplierId");
-
-                    b.ToTable("Supplier", (string)null);
-=======
             modelBuilder.Entity("InboundShipment", b =>
                 {
                     b.Property<int>("ShipmentId")
@@ -204,7 +134,6 @@ namespace Supplychain.Migrations
                     b.HasKey("NotificationId");
 
                     b.ToTable("Notifications");
->>>>>>> 4fe117dd693cd12865222f5387bdc8ac6c4fd6e5
                 });
 
             modelBuilder.Entity("Supplychain.Models.Warehouse.Inventory", b =>
@@ -253,10 +182,7 @@ namespace Supplychain.Migrations
 
                     b.HasKey("InventoryId");
 
-                    b.ToTable("Inventory", null, t =>
-                        {
-                            t.ExcludeFromMigrations();
-                        });
+                    b.ToTable("Inventory", (string)null);
                 });
 
             modelBuilder.Entity("Supplychain.Models.Warehouse.Order", b =>
@@ -306,82 +232,14 @@ namespace Supplychain.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-<<<<<<< HEAD
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-=======
                     b.Property<int>("Status")
                         .HasColumnType("int");
->>>>>>> 4fe117dd693cd12865222f5387bdc8ac6c4fd6e5
 
                     b.HasKey("OrderId");
 
                     b.HasIndex("SKU");
 
-                    b.ToTable("Orders", null, t =>
-                        {
-                            t.ExcludeFromMigrations();
-                        });
-                });
-
-            modelBuilder.Entity("User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("User", (string)null);
-                });
-
-            modelBuilder.Entity("Warehouse", b =>
-                {
-                    b.Property<int>("WarehouseId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WarehouseId"));
-
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("WarehouseId");
-
-                    b.ToTable("Warehouse", (string)null);
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("InboundShipment", b =>

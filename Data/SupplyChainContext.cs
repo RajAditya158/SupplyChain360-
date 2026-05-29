@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Supplychain.Models.Warehouse;
+using SupplyChain360.Models.Notifications;
 
 namespace Supplychain.Data
 {
@@ -9,6 +10,7 @@ namespace Supplychain.Data
             : base(options)
         {
         }
+<<<<<<< HEAD
 
         //  Your tables
         public DbSet<Order> Orders { get; set; }
@@ -35,6 +37,15 @@ namespace Supplychain.Data
 
         // public DbSet<KPIMetric> KPIMetrics { get; set; }
 
+=======
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Inventory> Inventory { get; set; }
+        
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<InboundShipment> Shipments { get; set; }
+         public DbSet<Notification> Notifications { get; set; }
+>>>>>>> 4fe117dd693cd12865222f5387bdc8ac6c4fd6e5
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -69,6 +80,14 @@ namespace Supplychain.Data
                 .WithMany()
                 .HasForeignKey(o => o.SKU)
                 .HasPrincipalKey(i => i.SKU);
+
+            //  ADD THIS (Shipment → PurchaseOrder FK)
+                modelBuilder.Entity<InboundShipment>()
+                    .HasOne<PurchaseOrder>()
+                    .WithMany()
+                    .HasForeignKey(s => s.PoId);
+
         }
+        
     }
 }
