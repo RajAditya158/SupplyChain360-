@@ -18,19 +18,19 @@ namespace SupplyChain.Repository.Procurement.Implementation
         //  Get all inbound shipments
         public async Task<List<InboundShipment>> GetAll()
         {
-            return await _context.Shipments.ToListAsync();
+            return await _context.InboundShipments.ToListAsync();
         }
 
         //  Get shipment by ID
         public async Task<InboundShipment?> GetById(int ShipmentId)
         {
-            return await _context.Shipments
+            return await _context.InboundShipments
                                  .FirstOrDefaultAsync(s => s.ShipmentId == ShipmentId);
         }
         //  Create new shipment
         public async Task<InboundShipment> Create(InboundShipment shipment)
         {
-            await _context.Shipments.AddAsync(shipment);
+            await _context.InboundShipments.AddAsync(shipment);
             await _context.SaveChangesAsync();
             return shipment;
         }
@@ -38,7 +38,7 @@ namespace SupplyChain.Repository.Procurement.Implementation
         //  Update existing shipment
         public async Task<InboundShipment> Update(InboundShipment shipment)
         {
-            var existing = await _context.Shipments
+            var existing = await _context.InboundShipments
                                          .FirstOrDefaultAsync(s => s.ShipmentId == shipment.ShipmentId);
 
             if (existing == null)
@@ -51,7 +51,7 @@ namespace SupplyChain.Repository.Procurement.Implementation
             existing.Status = shipment.Status;
             existing.PoId = shipment.PoId;
 
-            _context.Shipments.Update(existing);
+            _context.InboundShipments.Update(existing);
             await _context.SaveChangesAsync();
 
             return existing;
@@ -60,19 +60,19 @@ namespace SupplyChain.Repository.Procurement.Implementation
         //  Delete shipment
         public async Task Delete(int ShipmentId)
         {
-            var shipment = await _context.Shipments
+            var shipment = await _context.InboundShipments
                                          .FirstOrDefaultAsync(s => s.ShipmentId == ShipmentId);
 
             if (shipment != null)
             {
-                _context.Shipments.Remove(shipment);
+                _context.InboundShipments.Remove(shipment);
                 await _context.SaveChangesAsync();
             }
         }
         //  Search shipments based on criteria
        public async Task<List<InboundShipment>> SearchShipment(SearchInboundShipmentDto dto)
         {
-            var query = _context.Shipments.AsQueryable();
+            var query = _context.InboundShipments.AsQueryable();
 
             // Filter by PO
             if (dto.PoId > 0)

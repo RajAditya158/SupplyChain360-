@@ -1,5 +1,5 @@
-using Supplychain.Enum;
 
+using Supplychain.Enums.Admin;
 public class Supplier
 {
     public int SupplierId { get; set; }
@@ -13,3 +13,5 @@ public class Supplier
 
 
 }
+
+

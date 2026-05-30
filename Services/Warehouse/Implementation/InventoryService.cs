@@ -57,7 +57,7 @@ namespace Supplychain.Services.Warehouse
         public async Task<Inventory> AddInventoryAsync(Inventory inventory)
         {
             inventory.LastUpdated = DateTime.UtcNow;
-            inventory.Status = InventoryStatus.Available;
+            inventory.Status = InventoryStatus.Available.ToString();
             _context.Inventory.Add(inventory);
             await _context.SaveChangesAsync();
             return inventory;

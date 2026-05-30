@@ -7,6 +7,8 @@ public class PurchaseOrder
 {
     [Key]
     public int PoId { get; set; }
+    
+    [JsonIgnore]
     public int SupplierId { get; set; }
     public string? SupplierName { get; set; }  
     public DateTime OrderDate { get; set; }

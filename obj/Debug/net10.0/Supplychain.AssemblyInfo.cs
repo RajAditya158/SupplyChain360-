@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Supplychain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3576eb6dded3dbc75988606b2a954f604d45b42a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1f281fcee39f9cf57e53ce5cf1159c963de5c457")]
 [assembly: System.Reflection.AssemblyProductAttribute("Supplychain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Supplychain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -87,6 +87,11 @@ public async Task<List<PurchaseOrder>> Search(SearchByPurchaseDTO dto)
 
     return await query.ToListAsync();
 }
+public async Task<List<Supplier>> GetSuppliersForLookup()
+{
+    // Assuming your context has a DbSet<Supplier> called Suppliers
+    return await _context.Suppliers.ToListAsync();
+}
 
     }
 }

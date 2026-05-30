@@ -25,12 +25,8 @@ namespace Supplychain.Models.Warehouse
         [Required]
         public int SafetyStock { get; set; }
 
-<<<<<<< HEAD
         [StringLength(20)]
         public required string Status { get; set; }   // Active, Inactive, etc.
-=======
-        public InventoryStatus Status { get; set; }
->>>>>>> 4fe117dd693cd12865222f5387bdc8ac6c4fd6e5
 
         [StringLength(50)]
         public required string StorageLocation { get; set; }

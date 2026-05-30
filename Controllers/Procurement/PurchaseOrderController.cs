@@ -18,11 +18,11 @@ public class PurchaseOrderController : ControllerBase
     public async Task<IActionResult> GetAll()
         => Ok(await _service.GetAll());
 
-    [HttpPost]
-    public async Task<IActionResult> Create(PurchaseOrderDTO dto)
-        => Ok(await _service.Create(dto));
-
-    [HttpPatch("{poId}/status")]
+       [HttpPost]
+        public async Task<IActionResult> Create(PurchaseOrderDTO dto)
+            => await _service.Create(dto) != null ? Ok("Order Created") : BadRequest("Supplier Name not found in database");
+            
+            [HttpPatch("{poId}/status")]
     public async Task<IActionResult> UpdateStatus(int poId, [FromBody] PurchaseOrderStatus status)
         => Ok(await _service.UpdateStatus(poId, status));
         
@@ -59,10 +59,10 @@ public async Task<IActionResult> Search(
     return Ok(result);
 }
 
+
 [HttpPut("{PoId}")]
-public async Task<IActionResult> Update(int PoId, PurchaseOrderDTO po)
-{
-    var updatedPO = await _service.Update(PoId, po);
-    return Ok(updatedPO);
-}
+public async Task<IActionResult> Update(int PoId, PurchaseOrderDTO dto)
+    => await _service.Update(PoId, dto) != null 
+        ? Ok("Purchase Order Updated Successfully") 
+        : NotFound("Purchase Order not found or Supplier Name is invalid");
 }

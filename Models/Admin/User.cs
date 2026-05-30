@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SupplyChain360.Enums.Admin;
 
 public class User
 {

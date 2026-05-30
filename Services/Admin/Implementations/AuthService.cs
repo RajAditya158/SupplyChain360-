@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Supplychain.Data;
 using System.Linq;
 using Supplychain.DTOs.Admin;
+using SupplyChain360.Enums.Admin;
 
 public class AuthService : IAuthService
 {

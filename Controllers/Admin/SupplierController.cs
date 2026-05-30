@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Supplychain.DTOs.Admin;
-using Supplychain.Enum;
+using Supplychain.Enums;
 
 [ApiController]
 [Route("api/v1/suppliers")]

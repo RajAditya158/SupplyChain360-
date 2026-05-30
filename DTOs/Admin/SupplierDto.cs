@@ -1,6 +1,8 @@
+
+using Supplychain.Enums.Admin;
 namespace Supplychain.DTOs.Admin
 {
-    using Supplychain.Enum;
+
 
     public class SupplierDto
     {

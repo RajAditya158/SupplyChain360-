@@ -6,11 +6,11 @@ namespace SupplyChain.Procurement.Controllers
 {
     [ApiController]
     [Route("api/v1/inbound-shipments")]
-    public class ShipmentController : ControllerBase
+    public class InboundShipmentController : ControllerBase
     {
         private readonly IShipmentService _service;
 
-        public ShipmentController(IShipmentService service)
+        public InboundShipmentController(IShipmentService service)
         {
             _service = service;
         }

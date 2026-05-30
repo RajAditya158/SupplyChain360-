@@ -22,7 +22,6 @@ namespace Supplychain.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-<<<<<<< HEAD
             modelBuilder.Entity("AuditLog", b =>
                 {
                     b.Property<int>("AuditId")
@@ -46,55 +45,6 @@ namespace Supplychain.Migrations
                     b.ToTable("AuditLog", (string)null);
                 });
 
-            modelBuilder.Entity("Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Role", (string)null);
-                });
-
-            modelBuilder.Entity("Supplier", b =>
-                {
-                    b.Property<int>("SupplierId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SupplierId");
-
-                    b.ToTable("Supplier", (string)null);
-=======
             modelBuilder.Entity("InboundShipment", b =>
                 {
                     b.Property<int>("ShipmentId")
@@ -127,7 +77,31 @@ namespace Supplychain.Migrations
 
                     b.HasIndex("PoId");
 
-                    b.ToTable("Shipments");
+                    b.ToTable("InboundShipments");
+                });
+
+            modelBuilder.Entity("LoginResponse", b =>
+                {
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.ToTable("LoginResponse");
                 });
 
             modelBuilder.Entity("OrderItem", b =>
@@ -179,11 +153,66 @@ namespace Supplychain.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SupplierName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PoId");
 
+                    b.HasIndex("SupplierId", "SupplierName");
+
                     b.ToTable("PurchaseOrders");
+                });
+
+            modelBuilder.Entity("Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Role", (string)null);
+                });
+
+            modelBuilder.Entity("Supplier", b =>
+                {
+                    b.Property<int>("SupplierId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierId"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SupplierId");
+
+                    b.HasIndex("SupplierId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("Supplier", (string)null);
                 });
 
             modelBuilder.Entity("SupplyChain360.Models.Notifications.Notification", b =>
@@ -195,7 +224,6 @@ namespace Supplychain.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
@@ -203,8 +231,9 @@ namespace Supplychain.Migrations
 
                     b.HasKey("NotificationId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Notifications");
->>>>>>> 4fe117dd693cd12865222f5387bdc8ac6c4fd6e5
                 });
 
             modelBuilder.Entity("Supplychain.Models.Warehouse.Inventory", b =>
@@ -240,8 +269,10 @@ namespace Supplychain.Migrations
                     b.Property<int>("SafetyStock")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("StorageLocation")
                         .IsRequired()
@@ -306,13 +337,8 @@ namespace Supplychain.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-<<<<<<< HEAD
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-=======
                     b.Property<int>("Status")
                         .HasColumnType("int");
->>>>>>> 4fe117dd693cd12865222f5387bdc8ac6c4fd6e5
 
                     b.HasKey("OrderId");
 
@@ -395,13 +421,29 @@ namespace Supplychain.Migrations
 
             modelBuilder.Entity("OrderItem", b =>
                 {
-                    b.HasOne("PurchaseOrder", "PurchaseOrder")
+                    b.HasOne("PurchaseOrder", null)
                         .WithMany()
                         .HasForeignKey("PoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("PurchaseOrder");
+            modelBuilder.Entity("PurchaseOrder", b =>
+                {
+                    b.HasOne("Supplier", null)
+                        .WithMany()
+                        .HasForeignKey("SupplierId", "SupplierName")
+                        .HasPrincipalKey("SupplierId", "Name")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("SupplyChain360.Models.Notifications.Notification", b =>
+                {
+                    b.HasOne("User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Supplychain.Models.Warehouse.Order", b =>

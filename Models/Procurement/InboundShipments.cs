@@ -9,6 +9,7 @@ public class InboundShipment
     [Key] 
     public int ShipmentId { get; set; }
     public int PoId { get; set; }
+    [JsonIgnore]
     public int SupplierId { get; set; }
 
     public string SupplierName { get; set; }

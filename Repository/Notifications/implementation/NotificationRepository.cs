@@ -29,7 +29,7 @@ namespace SupplyChain360.Repositories.Notifications.Implementation
         public async Task<IEnumerable<Notification>> GetNotificationsByUserAsync(NotificationUserId userId)
         {
             return await _context.Notifications
-                                 .Where(n => n.UserId == userId)
+                                 .Where(n => n.UserId == (int)userId)
                                  .ToListAsync();
         }
     }

@@ -21,7 +21,7 @@ namespace SupplyChain360.Services.Notifications.Implementation
         {
             var notification = new Notification
             {
-                UserId = dto.UserId,
+                UserId = (int)dto.UserId,
                 Message = dto.Message
             };
 

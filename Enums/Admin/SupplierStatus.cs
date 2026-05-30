@@ -1,4 +1,4 @@
-namespace Supplychain.Enum
+namespace Supplychain.Enums.Admin
 {
     public enum SupplierStatus
     {

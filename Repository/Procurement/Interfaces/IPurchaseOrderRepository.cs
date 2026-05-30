@@ -9,5 +9,6 @@ namespace SupplyChain.Repository.Procurement.Interfaces
         Task<PurchaseOrder> Update(PurchaseOrder po);
         Task Delete(PurchaseOrder po);
         Task<List<PurchaseOrder>> Search(SearchByPurchaseDTO dto);
+       Task<List<Supplier>> GetSuppliersForLookup();
     }
 }
